@@ -1,5 +1,9 @@
 # MX5 & Pedalboard Bridge + MX-Edit (with NAM-Mod Support)
 
+**[English](#english) · [Português](#português) · [Español](#español)**
+
+#### English
+
 > **This is a fork, not the official MX-Edit.** The original project is
 > [TicT4x/MX-Edit](https://github.com/TicT4x/MX-Edit) (MIT). Versions from this fork carry the
 > suffix `-arte` (for example `0.9.6-beta.4-arte.1`), so they are not mistaken for the original.
@@ -15,6 +19,48 @@
 >   first message sent right after opening was lost 8 times out of 8), tries each pair of ports
 >   with a ping when Windows lists more than one, and keeps looking for the device until it
 >   finds it.
+
+#### Português
+
+> **Este é um fork, não o MX-Edit oficial.** O projeto original é o
+> [TicT4x/MX-Edit](https://github.com/TicT4x/MX-Edit) (MIT). As versões deste fork levam o
+> sufixo `-arte` (por exemplo `0.9.6-beta.4-arte.1`), para não serem confundidas com o original.
+>
+> O que este fork acrescenta ao MX-Edit `0.9.6-beta.4`:
+>
+> - **Imagens dos blocos.** Se houver uma pasta chamada `arte` ao lado do `MX-Edit.exe`, o editor
+>   mostra a imagem de cada pedal, amplificador e gabinete no lugar do símbolo desenhado. A pasta
+>   guarda arquivos PNG com o nome do bloco (as subpastas `Amp/` e `Cab/` usam o nome do modelo).
+>   Sem a pasta, o editor fica igual ao original. O instalador do
+>   [mx5-nam-a2](https://github.com/pagueobaixista-afk/mx5-nam-a2) preenche essa pasta para você.
+> - **Conexão confiável.** O editor espera 0,3 s depois de abrir as portas MIDI (no Windows, a
+>   primeira mensagem enviada logo após abrir se perdia 8 vezes em 8), testa cada par de portas
+>   com um ping quando o Windows lista mais de um, e continua procurando o aparelho até achar.
+>
+> O restante desta página (instalação e uso) está em inglês e vem do projeto original.
+
+#### Español
+
+> **Esto es un fork, no el MX-Edit oficial.** El proyecto original es
+> [TicT4x/MX-Edit](https://github.com/TicT4x/MX-Edit) (MIT). Las versiones de este fork llevan el
+> sufijo `-arte` (por ejemplo `0.9.6-beta.4-arte.1`), para que no se confundan con el original.
+>
+> Lo que este fork añade a MX-Edit `0.9.6-beta.4`:
+>
+> - **Imágenes de los bloques.** Si hay una carpeta llamada `arte` junto a `MX-Edit.exe`, el
+>   editor muestra la imagen de cada pedal, amplificador y gabinete en lugar del símbolo dibujado.
+>   La carpeta contiene archivos PNG con el nombre del bloque (las subcarpetas `Amp/` y `Cab/`
+>   usan el nombre del modelo). Sin la carpeta, el editor se ve igual que el original. El
+>   instalador de [mx5-nam-a2](https://github.com/pagueobaixista-afk/mx5-nam-a2) llena esa
+>   carpeta por ti.
+> - **Conexión fiable.** El editor espera 0,3 s después de abrir los puertos MIDI (en Windows, el
+>   primer mensaje enviado justo después de abrir se perdía 8 veces de 8), prueba cada par de
+>   puertos con un ping cuando Windows muestra más de uno, y sigue buscando el equipo hasta
+>   encontrarlo.
+>
+> El resto de esta página (instalación y uso) está en inglés y viene del proyecto original.
+
+---
 
 **Unofficial** tooling for the **HeadRush MX5** guitar processor – and, as a beta, the
 **HeadRush Pedalboard** ([details](#headrush-pedalboard-beta)):
