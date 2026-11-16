@@ -1,4 +1,4 @@
-# MX5 & Pedalboard Bridge + MX-Edit (with NAM-Mod Support)
+# HeadRush MX5 PC Editor – MX-Edit (unofficial fork, with Bridge and NAM-Mod support)
 
 **MX-Edit that connects to the MX5 right away on Windows 11, with no retries. It also shows the picture of each pedal, amp and cab, as on the MX5 screen, in place of the drawn symbols.**
 
