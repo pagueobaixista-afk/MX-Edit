@@ -1,10 +1,10 @@
 # MX5 & Pedalboard Bridge + MX-Edit (with NAM-Mod Support)
 
-**MX-Edit with the picture of each pedal, amp and cab, as on the MX5 screen, in place of the drawn symbols. It also finds the MX5 on the first try.**
+**MX-Edit that connects to the MX5 right away on Windows 11, with no retries. It also shows the picture of each pedal, amp and cab, as on the MX5 screen, in place of the drawn symbols.**
 
-**MX-Edit com a imagem de cada pedal, amplificador e gabinete, como na tela do MX5, no lugar dos símbolos desenhados. Também acha o MX5 na primeira tentativa.**
+**MX-Edit que conecta ao MX5 na hora no Windows 11, sem precisar tentar de novo. Também mostra a imagem de cada pedal, amplificador e gabinete, como na tela do MX5, no lugar dos símbolos desenhados.**
 
-**MX-Edit con la imagen de cada pedal, amplificador y gabinete, como en la pantalla del MX5, en lugar de los símbolos dibujados. También encuentra el MX5 al primer intento.**
+**MX-Edit que se conecta al MX5 al instante en Windows 11, sin reintentos. También muestra la imagen de cada pedal, amplificador y gabinete, como en la pantalla del MX5, en lugar de los símbolos dibujados.**
 
 **[English](#english) · [Português](#português) · [Español](#español)**
 
@@ -16,15 +16,15 @@
 >
 > What this fork adds to MX-Edit `0.9.6-beta.4`:
 >
+> - **Reliable connection.** The editor waits 0.3 s after opening the MIDI ports (on Windows the
+>   first message sent right after opening was lost 8 times out of 8), tries each pair of ports
+>   with a ping when Windows lists more than one, and keeps looking for the device until it
+>   finds it.
 > - **Block pictures.** If a folder named `arte` sits next to `MX-Edit.exe`, the editor shows the
 >   picture of each pedal, amp and cab in place of the drawn symbol. The folder holds PNG files
 >   named after the block (`Amp/` and `Cab/` subfolders are named after the model). Without the
 >   folder the editor looks like the original. The installer of
 >   [mx5-nam-a2](https://github.com/pagueobaixista-afk/mx5-nam-a2) fills this folder for you.
-> - **Reliable connection.** The editor waits 0.3 s after opening the MIDI ports (on Windows the
->   first message sent right after opening was lost 8 times out of 8), tries each pair of ports
->   with a ping when Windows lists more than one, and keeps looking for the device until it
->   finds it.
 
 #### Português
 
@@ -34,14 +34,14 @@
 >
 > O que este fork acrescenta ao MX-Edit `0.9.6-beta.4`:
 >
+> - **Conexão confiável.** O editor espera 0,3 s depois de abrir as portas MIDI (no Windows, a
+>   primeira mensagem enviada logo após abrir se perdia 8 vezes em 8), testa cada par de portas
+>   com um ping quando o Windows lista mais de um, e continua procurando o aparelho até achar.
 > - **Imagens dos blocos.** Se houver uma pasta chamada `arte` ao lado do `MX-Edit.exe`, o editor
 >   mostra a imagem de cada pedal, amplificador e gabinete no lugar do símbolo desenhado. A pasta
 >   guarda arquivos PNG com o nome do bloco (as subpastas `Amp/` e `Cab/` usam o nome do modelo).
 >   Sem a pasta, o editor fica igual ao original. O instalador do
 >   [mx5-nam-a2](https://github.com/pagueobaixista-afk/mx5-nam-a2) preenche essa pasta para você.
-> - **Conexão confiável.** O editor espera 0,3 s depois de abrir as portas MIDI (no Windows, a
->   primeira mensagem enviada logo após abrir se perdia 8 vezes em 8), testa cada par de portas
->   com um ping quando o Windows lista mais de um, e continua procurando o aparelho até achar.
 >
 > O restante desta página (instalação e uso) está em inglês e vem do projeto original.
 
@@ -53,16 +53,16 @@
 >
 > Lo que este fork añade a MX-Edit `0.9.6-beta.4`:
 >
+> - **Conexión fiable.** El editor espera 0,3 s después de abrir los puertos MIDI (en Windows, el
+>   primer mensaje enviado justo después de abrir se perdía 8 veces de 8), prueba cada par de
+>   puertos con un ping cuando Windows muestra más de uno, y sigue buscando el equipo hasta
+>   encontrarlo.
 > - **Imágenes de los bloques.** Si hay una carpeta llamada `arte` junto a `MX-Edit.exe`, el
 >   editor muestra la imagen de cada pedal, amplificador y gabinete en lugar del símbolo dibujado.
 >   La carpeta contiene archivos PNG con el nombre del bloque (las subcarpetas `Amp/` y `Cab/`
 >   usan el nombre del modelo). Sin la carpeta, el editor se ve igual que el original. El
 >   instalador de [mx5-nam-a2](https://github.com/pagueobaixista-afk/mx5-nam-a2) llena esa
 >   carpeta por ti.
-> - **Conexión fiable.** El editor espera 0,3 s después de abrir los puertos MIDI (en Windows, el
->   primer mensaje enviado justo después de abrir se perdía 8 veces de 8), prueba cada par de
->   puertos con un ping cuando Windows muestra más de uno, y sigue buscando el equipo hasta
->   encontrarlo.
 >
 > El resto de esta página (instalación y uso) está en inglés y viene del proyecto original.
 
