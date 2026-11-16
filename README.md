@@ -6,6 +6,8 @@
 
 **MX-Edit que se conecta al MX5 al instante en Windows 11, sin reintentos. También muestra la imagen de cada pedal, amplificador y gabinete, como en la pantalla del MX5, en lugar de los símbolos dibujados.**
 
+**NAM firmware for the MX5 (bridge included) · Firmware NAM para o MX5 (bridge incluído) · Firmware NAM para el MX5 (bridge incluido):** [HeadRush MX5 NAM A2 Full/Lite](https://github.com/pagueobaixista-afk/headrush-mx5-nam-a2-full-lite)
+
 **[English](#english) · [Português](#português) · [Español](#español)**
 
 #### English
@@ -17,7 +19,7 @@
 > **You need the MX5 Bridge 0.7 on the device.** Without it the editor cannot connect to the MX5.
 > The bridge is a small add-on to the stock firmware 2.7. Install it with
 > `MX5Bridge_0.7_Patcher.exe` from the [original project's releases](https://github.com/TicT4x/MX-Edit/releases) (steps below), or with
-> the installer of [mx5-nam-a2](https://github.com/pagueobaixista-afk/mx5-nam-a2), which puts the bridge and the NAM mod on the device together.
+> the installer of [HeadRush MX5 NAM A2 Full/Lite](https://github.com/pagueobaixista-afk/headrush-mx5-nam-a2-full-lite), which puts the bridge and the NAM mod on the device together.
 > This fork only publishes the editor.
 >
 > What this fork adds to MX-Edit `0.9.6-beta.4`:
@@ -30,7 +32,7 @@
 >   picture of each pedal, amp and cab in place of the drawn symbol. The folder holds PNG files
 >   named after the block (`Amp/` and `Cab/` subfolders are named after the model). Without the
 >   folder the editor looks like the original. The installer of
->   [mx5-nam-a2](https://github.com/pagueobaixista-afk/mx5-nam-a2) fills this folder for you.
+>   [HeadRush MX5 NAM A2 Full/Lite](https://github.com/pagueobaixista-afk/headrush-mx5-nam-a2-full-lite) fills this folder for you.
 
 #### Português
 
@@ -41,7 +43,7 @@
 > **É preciso ter o MX5 Bridge 0.7 no aparelho.** Sem ele o editor não conecta ao MX5. O bridge
 > é um pequeno complemento ao firmware original 2.7. Instale com o `MX5Bridge_0.7_Patcher.exe`,
 > que está nos [releases do projeto original](https://github.com/TicT4x/MX-Edit/releases) (passos mais abaixo, em inglês), ou com o
-> instalador do [mx5-nam-a2](https://github.com/pagueobaixista-afk/mx5-nam-a2), que grava o bridge e o mod NAM juntos. Este fork publica só
+> instalador do [HeadRush MX5 NAM A2 Full/Lite](https://github.com/pagueobaixista-afk/headrush-mx5-nam-a2-full-lite), que grava o bridge e o mod NAM juntos. Este fork publica só
 > o editor.
 >
 > O que este fork acrescenta ao MX-Edit `0.9.6-beta.4`:
@@ -53,7 +55,7 @@
 >   mostra a imagem de cada pedal, amplificador e gabinete no lugar do símbolo desenhado. A pasta
 >   guarda arquivos PNG com o nome do bloco (as subpastas `Amp/` e `Cab/` usam o nome do modelo).
 >   Sem a pasta, o editor fica igual ao original. O instalador do
->   [mx5-nam-a2](https://github.com/pagueobaixista-afk/mx5-nam-a2) preenche essa pasta para você.
+>   [HeadRush MX5 NAM A2 Full/Lite](https://github.com/pagueobaixista-afk/headrush-mx5-nam-a2-full-lite) preenche essa pasta para você.
 >
 > O restante desta página (instalação e uso) está em inglês e vem do projeto original.
 
@@ -66,7 +68,7 @@
 > **Hace falta el MX5 Bridge 0.7 en el equipo.** Sin él, el editor no se conecta al MX5. El
 > bridge es un pequeño complemento del firmware original 2.7. Instálalo con
 > `MX5Bridge_0.7_Patcher.exe`, que está en los [releases del proyecto original](https://github.com/TicT4x/MX-Edit/releases) (pasos más
-> abajo, en inglés), o con el instalador de [mx5-nam-a2](https://github.com/pagueobaixista-afk/mx5-nam-a2), que graba el bridge y el mod NAM
+> abajo, en inglés), o con el instalador de [HeadRush MX5 NAM A2 Full/Lite](https://github.com/pagueobaixista-afk/headrush-mx5-nam-a2-full-lite), que graba el bridge y el mod NAM
 > juntos. Este fork solo publica el editor.
 >
 > Lo que este fork añade a MX-Edit `0.9.6-beta.4`:
@@ -79,7 +81,7 @@
 >   editor muestra la imagen de cada pedal, amplificador y gabinete en lugar del símbolo dibujado.
 >   La carpeta contiene archivos PNG con el nombre del bloque (las subcarpetas `Amp/` y `Cab/`
 >   usan el nombre del modelo). Sin la carpeta, el editor se ve igual que el original. El
->   instalador de [mx5-nam-a2](https://github.com/pagueobaixista-afk/mx5-nam-a2) llena esa
+>   instalador de [HeadRush MX5 NAM A2 Full/Lite](https://github.com/pagueobaixista-afk/headrush-mx5-nam-a2-full-lite) llena esa
 >   carpeta por ti.
 >
 > El resto de esta página (instalación y uso) está en inglés y viene del proyecto original.
