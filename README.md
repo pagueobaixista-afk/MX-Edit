@@ -1,5 +1,11 @@
 # MX5 & Pedalboard Bridge + MX-Edit (with NAM-Mod Support)
 
+**MX-Edit with the picture of each pedal, amp and cab, as on the MX5 screen, in place of the drawn symbols. It also finds the MX5 on the first try.**
+
+**MX-Edit com a imagem de cada pedal, amplificador e gabinete, como na tela do MX5, no lugar dos símbolos desenhados. Também acha o MX5 na primeira tentativa.**
+
+**MX-Edit con la imagen de cada pedal, amplificador y gabinete, como en la pantalla del MX5, en lugar de los símbolos dibujados. También encuentra el MX5 al primer intento.**
+
 **[English](#english) · [Português](#português) · [Español](#español)**
 
 #### English
