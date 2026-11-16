@@ -168,8 +168,10 @@ class Editor(tk.Tk):
         U.warm_model_icons(self, models=self.models())   # Blockauswahl oeffnet dann ohne Zeichenpause
         if folder:
             self.open_folder(folder)
-        elif self.prefs["auto_connect"]:   # ohne Ordner: gleich verbinden (still, bei Fehlschlag bleibt der Knopf)
-            self.after(300, lambda: self.connect(quiet=True))
+        elif self.prefs["auto_connect"]:   # sem pasta: fica procurando o MX5 ate achar (clicar em LIVE cancela)
+            self.after(300, lambda: self.wait_for_device(
+                "Looking for the MX5 … (it can take ~10 s after switching it on)\n(Click LIVE on the left to stop.)",
+                "SEARCHING …", "Looking for the MX5 …"))
         self.protocol("WM_DELETE_WINDOW", self.on_close)
 
     # ---------------- Aufbau ----------------
@@ -2462,7 +2464,7 @@ class Editor(tk.Tk):
             from bridge import Bridge
             bridge = Bridge(*settings.find_ports(*ports)) if any(ports) else Bridge.auto()
         try:
-            version = bridge.ping()
+            version = bridge.version if bridge.version else bridge.ping_robust()
             if bridge.vnum < MIN_BRIDGE:
                 raise BridgeTooOld(version)
             model = L.device_model(bridge)
@@ -2575,27 +2577,66 @@ class Editor(tk.Tk):
         if not self.session:
             return
         self.disconnect(lost=True)
+        self.wait_for_device("Connection to the MX5 lost – reconnecting automatically …\n"
+                             "(Click LIVE on the left to stop.)",
+                             "RECONNECTING …", "Connection to the MX5 lost – reconnecting …")
+
+    def wait_for_device(self, err, badge, status):
+        """Tenta conectar em segundo plano a cada RECONNECT_S ate o MX5 responder (na abertura do
+        editor e depois de perder a conexao). Clicar em LIVE cancela (toggle_live -> stop_reconnect)."""
+        if self.session or self._reconnect:
+            return
         self._reconnect_seq += 1
         self._reconnect = self._reconnect_seq
         self._connecting = True
-        self._connect_err = ("Connection to the MX5 lost – reconnecting automatically …\n"
-                             "(Click LIVE on the left to stop.)")
-        self.set_mode_badge(None, "RECONNECTING …")
+        self._connect_err = err
+        self.set_mode_badge(None, badge)
         self.draw_chain()
-        self.status.set("Connection to the MX5 lost – reconnecting …")
+        self.status.set(status)
         token = self._reconnect
         ports = self.midi_ports()
 
         def work():
+            last = None
             while token == self._reconnect:
                 try:
                     res = self.open_bridge(ports=ports)
-                except Exception:
+                except (BridgeTooOld, DeviceNotSupported, ImportError) as e:
+                    # nao adianta insistir: para e mostra o motivo
+                    def fail(e=e):
+                        if token == self._reconnect:
+                            self.stop_reconnect()
+                            self._connect_failed(e, False)
+                    self._inbox.put(fail)
+                    return
+                except Exception as e:
+                    why = self._why_not(e)
+                    if why != last:   # mostra por que ainda nao conectou (porta ocupada, sem resposta ...)
+                        last = why
+                        self._inbox.put(lambda w=why: token == self._reconnect and self._show_wait_reason(err, w))
                     time.sleep(RECONNECT_S)
                     continue
                 self._inbox.put(lambda: self._reconnected(token, res))
                 return
         threading.Thread(target=work, daemon=True).start()
+
+    @staticmethod
+    def _why_not(e):
+        t = str(e)
+        low = t.lower()
+        if "nicht gefunden" in t or "not found" in low:
+            return "The MX5 MIDI port is not there yet (USB cable, power, or still starting)."
+        if "keine antwort" in low or "respondeu" in low:
+            return "The MIDI port is there, but the MX5 bridge does not answer yet."
+        if "open" in low or "allocated" in low or "in use" in low or "creating" in low:
+            return ("Windows did not let the editor open the MX5 MIDI port. Close other programs that use it "
+                    "(another MX-Edit, HeadRush software, a DAW) and it connects by itself.")
+        return t[:200]
+
+    def _show_wait_reason(self, err, why):
+        self._connect_err = err + "\n" + why
+        if self.view is None:
+            self.draw_chain()
 
     def _reconnected(self, token, res):
         if token != self._reconnect or self.session:

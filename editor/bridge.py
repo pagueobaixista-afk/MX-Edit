@@ -20,6 +20,7 @@ import base64, json, re, time
 HDR = [0x7D, 0x48, 0x52]
 _ESCAPED = re.compile("\x7f([0-9A-Fa-f]{4})")
 KEYWORDS = ["mx5", "headrush", "gadget", "f_midi", "midi function"]
+PORT_SETTLE_S = 0.3   # s: pausa depois de abrir as portas MIDI antes do primeiro envio
 MAX_REPLY = 40000   # geschaetzte Antwortgroesse je Sammelabfrage (Grenze der Bruecke: 127 x 380 Zeichen)
 PER_VALUE = 220     # Antwortzeichen je Wert zusaetzlich zum Pfad (gemessen ~130-160)
 
@@ -39,6 +40,9 @@ class Bridge:
         self.in_name, self.out_name = in_name, out_name
         self.inp = mido.open_input(in_name)
         self.out = mido.open_output(out_name)
+        # Logo depois de abrir, o Windows ainda nao entrega o que e enviado: medido no MX5, o 1o ping
+        # sem esta pausa se perdia 8 de 8 vezes; com 0,2 s respondeu 8 de 8 (por isso 'luta para conectar')
+        time.sleep(PORT_SETTLE_S)
         self.seq = 0
         self.v2 = None      # None = unbekannt, per ping() ermittelt
         self.v3 = False     # Datenbankdienst (SQL) vorhanden
@@ -50,22 +54,65 @@ class Bridge:
         self._drain()
 
     @staticmethod
-    def find_ports():
+    def port_candidates():
+        """Pares (entrada, saida) que podem ser o MX5, o mais provavel primeiro. Com mais de um
+        candidato (portas MIDIIN2/MIDIOUT2, numeracao trocada pelo Windows) nao da erro: auto()
+        testa cada par com um ping."""
         import mido
-        def pick(names):
-            hits = [n for n in names if any(k in n.lower() for k in KEYWORDS)]
-            if len(hits) != 1:
-                raise BridgeError("MX5-MIDI-Port nicht eindeutig gefunden: %s" % names)
-            return hits[0]
+        def hits(names):
+            h = [n for n in names if any(k in n.lower() for k in KEYWORDS)]
+            # 'HeadRush MX5 0' antes de 'MIDIIN2 (HeadRush MX5) 1'
+            return sorted(h, key=lambda n: (n.upper().startswith(("MIDIIN", "MIDIOUT")), "mx5" not in n.lower(), n))
         try:
-            ins, outs = mido.get_input_names(), mido.get_output_names()
+            all_in, all_out = mido.get_input_names(), mido.get_output_names()
         except Exception as e:   # z. B. Linux ohne ALSA-Sequencer (snd-seq), fehlendes Backend
             raise BridgeError("MIDI nicht verfuegbar: %s" % e)
-        return pick(ins), pick(outs)
+        ins, outs = hits(all_in), hits(all_out)
+        if not ins or not outs:
+            raise BridgeError("MX5-MIDI-Port nicht gefunden: %s / %s" % (all_in, all_out))
+        return [(i, o) for i in ins for o in outs]
+
+    @staticmethod
+    def find_ports():
+        return Bridge.port_candidates()[0]
 
     @classmethod
     def auto(cls):
-        return cls(*cls.find_ports())
+        """Abre o primeiro par de portas que responde ao ping (com um so par, so o abre)."""
+        pairs = cls.port_candidates()
+        if len(pairs) == 1:
+            return cls(*pairs[0])
+        last = None
+        for pair in pairs:
+            try:
+                b = cls(*pair)
+            except Exception as e:
+                last = e
+                continue
+            try:
+                b.ping_robust(tries=2)
+                return b
+            except Exception as e:
+                last = e
+                b.close()
+        raise BridgeError("Nenhuma porta do MX5 respondeu (%s)" % last)
+
+    def ping_robust(self, tries=4, timeout=1.5):
+        """Ping com novas tentativas: logo depois de abrir a porta, a primeira mensagem as vezes
+        se perde (USB-MIDI do Windows / gadget f_midi do MX5)."""
+        err = None
+        for i in range(tries):
+            try:
+                self.v2 = None
+                code, body = self.request(0x01, timeout=timeout)
+                return self.ping_reply(body)
+            except BridgeError as e:
+                err = e
+                if "Keine Antwort" not in str(e) and "unvollstaendig" not in str(e):
+                    raise
+                time.sleep(0.3 * (i + 1))
+                self._drain()
+        raise err
 
     def close(self):
         for p in (self.inp, self.out):
@@ -152,6 +199,9 @@ class Bridge:
     def ping(self):
         self.v2 = None
         code, body = self.request(0x01)   # Antwort 'MX5Bridge-0.5 f_midi' ist reines ASCII
+        return self.ping_reply(body)
+
+    def ping_reply(self, body):
         self.version = body
         m = re.match(r"MX5Bridge-(\d+)\.(\d+)", body)
         self.vnum = (int(m.group(1)), int(m.group(2))) if m else (0, 0)
