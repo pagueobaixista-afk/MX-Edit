@@ -1,5 +1,21 @@
 # MX5 & Pedalboard Bridge + MX-Edit (with NAM-Mod Support)
 
+> **This is a fork, not the official MX-Edit.** The original project is
+> [TicT4x/MX-Edit](https://github.com/TicT4x/MX-Edit) (MIT). Versions from this fork carry the
+> suffix `-arte` (for example `0.9.6-beta.4-arte.1`), so they are not mistaken for the original.
+>
+> What this fork adds to MX-Edit `0.9.6-beta.4`:
+>
+> - **Block pictures.** If a folder named `arte` sits next to `MX-Edit.exe`, the editor shows the
+>   picture of each pedal, amp and cab in place of the drawn symbol. The folder holds PNG files
+>   named after the block (`Amp/` and `Cab/` subfolders are named after the model). Without the
+>   folder the editor looks like the original. The installer of
+>   [mx5-nam-a2](https://github.com/pagueobaixista-afk/mx5-nam-a2) fills this folder for you.
+> - **Reliable connection.** The editor waits 0.3 s after opening the MIDI ports (on Windows the
+>   first message sent right after opening was lost 8 times out of 8), tries each pair of ports
+>   with a ping when Windows lists more than one, and keeps looking for the device until it
+>   finds it.
+
 **Unofficial** tooling for the **HeadRush MX5** guitar processor – and, as a beta, the
 **HeadRush Pedalboard** ([details](#headrush-pedalboard-beta)):
 
