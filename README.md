@@ -14,6 +14,12 @@
 > [TicT4x/MX-Edit](https://github.com/TicT4x/MX-Edit) (MIT). Versions from this fork carry the
 > suffix `-arte` (for example `0.9.6-beta.4-arte.1`), so they are not mistaken for the original.
 >
+> **You need the MX5 Bridge 0.7 on the device.** Without it the editor cannot connect to the MX5.
+> The bridge is a small add-on to the stock firmware 2.7. Install it with
+> `MX5Bridge_0.7_Patcher.exe` from the [original project's releases](https://github.com/TicT4x/MX-Edit/releases) (steps below), or with
+> the installer of [mx5-nam-a2](https://github.com/pagueobaixista-afk/mx5-nam-a2), which puts the bridge and the NAM mod on the device together.
+> This fork only publishes the editor.
+>
 > What this fork adds to MX-Edit `0.9.6-beta.4`:
 >
 > - **Reliable connection.** The editor waits 0.3 s after opening the MIDI ports (on Windows the
@@ -31,6 +37,12 @@
 > **Este é um fork, não o MX-Edit oficial.** O projeto original é o
 > [TicT4x/MX-Edit](https://github.com/TicT4x/MX-Edit) (MIT). As versões deste fork levam o
 > sufixo `-arte` (por exemplo `0.9.6-beta.4-arte.1`), para não serem confundidas com o original.
+>
+> **É preciso ter o MX5 Bridge 0.7 no aparelho.** Sem ele o editor não conecta ao MX5. O bridge
+> é um pequeno complemento ao firmware original 2.7. Instale com o `MX5Bridge_0.7_Patcher.exe`,
+> que está nos [releases do projeto original](https://github.com/TicT4x/MX-Edit/releases) (passos mais abaixo, em inglês), ou com o
+> instalador do [mx5-nam-a2](https://github.com/pagueobaixista-afk/mx5-nam-a2), que grava o bridge e o mod NAM juntos. Este fork publica só
+> o editor.
 >
 > O que este fork acrescenta ao MX-Edit `0.9.6-beta.4`:
 >
@@ -50,6 +62,12 @@
 > **Esto es un fork, no el MX-Edit oficial.** El proyecto original es
 > [TicT4x/MX-Edit](https://github.com/TicT4x/MX-Edit) (MIT). Las versiones de este fork llevan el
 > sufijo `-arte` (por ejemplo `0.9.6-beta.4-arte.1`), para que no se confundan con el original.
+>
+> **Hace falta el MX5 Bridge 0.7 en el equipo.** Sin él, el editor no se conecta al MX5. El
+> bridge es un pequeño complemento del firmware original 2.7. Instálalo con
+> `MX5Bridge_0.7_Patcher.exe`, que está en los [releases del proyecto original](https://github.com/TicT4x/MX-Edit/releases) (pasos más
+> abajo, en inglés), o con el instalador de [mx5-nam-a2](https://github.com/pagueobaixista-afk/mx5-nam-a2), que graba el bridge y el mod NAM
+> juntos. Este fork solo publica el editor.
 >
 > Lo que este fork añade a MX-Edit `0.9.6-beta.4`:
 >
@@ -93,8 +111,9 @@ More details and troubleshooting: [INSTALL.md](INSTALL.md).
 **0. Back up your rigs.** On the MX5, enable *USB transfer mode* (Global Settings) and copy the
 `Rigs`, `Setlists`, `Blocks` and `Impulse Responses` folders to your PC.
 
-**1. Download** `MX5Bridge_0.7_Patcher.exe` and `MX-Edit_0.9.exe` from the
-[latest release](../../releases/latest). Nothing has to be installed, Python is not needed.
+**1. Download** `MX5Bridge_0.7_Patcher.exe` from the
+[original project's releases](https://github.com/TicT4x/MX-Edit/releases) and the editor (`MX-Edit_…-arte.….exe`) from
+[this fork's releases](../../releases). Nothing has to be installed, Python is not needed.
 Windows SmartScreen may warn about an unknown publisher: *More info › Run anyway*.
 
 **2. Build the firmware.** Put `MX5Bridge_0.7_Patcher.exe` into an empty folder and start it.
