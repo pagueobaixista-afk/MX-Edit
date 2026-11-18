@@ -33,6 +33,14 @@
 >   named after the block (`Amp/` and `Cab/` subfolders are named after the model). Without the
 >   folder the editor looks like the original. The installer of
 >   [HeadRush MX5 NAM A2 Full/Lite](https://github.com/pagueobaixista-afk/headrush-mx5-nam-a2-full-lite) fills this folder for you.
+>
+> **Install on Windows.** From [this fork's releases](../../releases), download
+> `MX-Edit_…-arte.…_Setup.exe` and, for the pedal pictures, `MX-Edit_arte_pedais.zip` into the
+> **same folder** (for example *Downloads*), then run the Setup. It installs the editor for your
+> user only (no administrator rights), adds Start menu and desktop shortcuts and an uninstaller,
+> and puts the pictures in place if the zip is next to it. Without the zip the editor is installed
+> with the drawn symbols. The pictures are HeadRush (inMusic) material and come as a separate file,
+> only for use with your own MX5. The single `.exe` without installer is still in the release.
 
 #### Português
 
@@ -56,6 +64,14 @@
 >   guarda arquivos PNG com o nome do bloco (as subpastas `Amp/` e `Cab/` usam o nome do modelo).
 >   Sem a pasta, o editor fica igual ao original. O instalador do
 >   [HeadRush MX5 NAM A2 Full/Lite](https://github.com/pagueobaixista-afk/headrush-mx5-nam-a2-full-lite) preenche essa pasta para você.
+>
+> **Instalar no Windows.** Nos [releases deste fork](../../releases), baixe o
+> `MX-Edit_…-arte.…_Setup.exe` e, para as imagens dos pedais, o `MX-Edit_arte_pedais.zip`, os
+> dois na **mesma pasta** (por exemplo *Downloads*), e rode o Setup. Ele instala o editor só para
+> o seu usuário (sem pedir administrador), cria atalhos no Menu Iniciar e na Área de Trabalho e um
+> desinstalador, e coloca as imagens se o zip estiver ao lado. Sem o zip, o editor é instalado com
+> os símbolos desenhados. As imagens são material da HeadRush (inMusic) e vêm num arquivo à
+> parte, só para uso com o seu próprio MX5. O `.exe` avulso, sem instalador, continua na release.
 >
 > O restante desta página (instalação e uso) está em inglês e vem do projeto original.
 
@@ -83,6 +99,15 @@
 >   usan el nombre del modelo). Sin la carpeta, el editor se ve igual que el original. El
 >   instalador de [HeadRush MX5 NAM A2 Full/Lite](https://github.com/pagueobaixista-afk/headrush-mx5-nam-a2-full-lite) llena esa
 >   carpeta por ti.
+>
+> **Instalar en Windows.** En los [releases de este fork](../../releases), descarga
+> `MX-Edit_…-arte.…_Setup.exe` y, para las imágenes de los pedales, `MX-Edit_arte_pedais.zip`, los
+> dos en la **misma carpeta** (por ejemplo *Descargas*), y ejecuta el Setup. Instala el editor
+> solo para tu usuario (sin pedir administrador), crea accesos directos en el menú Inicio y el
+> escritorio y un desinstalador, y coloca las imágenes si el zip está al lado. Sin el zip, el
+> editor se instala con los símbolos dibujados. Las imágenes son material de HeadRush (inMusic) y
+> van en un archivo aparte, solo para usar con tu propio MX5. El `.exe` suelto, sin instalador,
+> sigue en la release.
 >
 > El resto de esta página (instalación y uso) está en inglés y viene del proyecto original.
 
