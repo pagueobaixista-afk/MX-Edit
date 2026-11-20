@@ -99,7 +99,7 @@ class NAMPage(U.Page):
         self.lbl_sel = tk.Label(b, text="", bg=PANEL, fg=MUTED, font=FONT_SMALL, anchor="w", justify="left",
                                 wraplength=px(780))
         self.lbl_sel.pack(fill="x", pady=(px(6), 0))
-        tk.Label(b, text="The Drive knob of the Anxiety OD chooses the model: Drive = number in this list, positions "
+        tk.Label(b, text="The MODEL NAM knob of NAM A2 Pro (8-Bit Crush) chooses the model: 1 click = 1 model = number in this list, positions "
                          "without a model are silent. Moving or deleting models updates the rigs and NAM presets that "
                          "use them, so every rig keeps its model.",
                  bg=PANEL, fg=DIM, font=FONT_SMALL, anchor="w", justify="left", wraplength=px(780)

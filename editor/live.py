@@ -2117,9 +2117,13 @@ NAM_INFO = "/usr/Evil/Scripts/mx5bridge-nam.txt"
 NAM_EXT = ".nam"
 NAM_STEPS = 101                  # Drive 0..100 %, je Prozent ein Modell
 NAM_SILENT = NAM_STEPS - 1       # Platz fuer 'kein Modell' (belegt erst beim 101. Modell)
-NAM_V1 = ("Anxiety OD", "Anxiety OD 2")
-NAM_V2 = ("Anxiety OD V2", "Anxiety OD V2 2")
-NAM_PRESET_TYPES = {"Anxiety OD": "ANXIETY OD", "Anxiety OD V2": "ANXIETY OD V2"}
+# Firmware MX5 NAM A2 v8: o NAM fica no 8-Bit Crush (NAM A2 Pro); o modelo e o Resampling:
+# unnormalized x 1000 = posicao (1 clique do botao = 1 modelo).
+NAM_V1 = ("8-Bit Crush", "8-Bit Crush 2")
+NAM_V2 = ()
+NAM_PRESET_TYPES = {"8-Bit Crush": "8-BIT CRUSH"}
+NAM_PARAM = "Resampling"
+NAM_SCALE = 1000.0
 NAM_MAX_MB = 30                  # groessere Dateien lehnt der Editor ab (A1/A2-Modelle sind 0,1..5 MB)
 NAM_TRIM_DB = 12.0               # Tone/Level ueber 50 %: bis zu +12 dB (NAM_TRIM_MAX_DB der Mod)
 
@@ -2149,10 +2153,10 @@ def nam_modules(nam):
     """Blocknamen, die NAM spielen (leer, wenn NAM in der laufenden App nicht aktiv ist)."""
     if not nam or not nam.get("active"):
         return ()
-    return NAM_V1 + (NAM_V2 if nam.get("instances", 2) >= 4 else ())
+    return NAM_V1
 
 
-NAM_NAMES = {"Anxiety OD": "NAM", "Anxiety OD V2": "NAM V2"}   # Anzeige im Editor (Basisname -> Name)
+NAM_NAMES = {"8-Bit Crush": "NAM A2 Pro"}   # Anzeige im Editor (Basisname -> Name)
 
 
 def nam_display(m):
@@ -2254,7 +2258,7 @@ def nam_rename_files(br, renames, delete=()):
 
 
 def _nam_value_sql(json_path):
-    return "cast(round(json_extract(content, %s)) as integer)" % sql_lit(json_path)
+    return "cast(round(json_extract(content, %s) * 1000) as integer)" % sql_lit(json_path)
 
 
 def _nam_paths(nam):
@@ -2264,10 +2268,10 @@ def _nam_paths(nam):
     Einstellungen und in der Datenbank nicht als schreibgeschuetzt markiert."""
     out = []
     for m in nam_modules(nam):
-        out.append(("rigs", '$.data.Patch.children."%s".children.Drive.value' % m, m, ""))
+        out.append(("rigs", '$.data.Patch.children."%s".children.Resampling.value' % m, m, ""))
     for base in sorted({base_name(m) for m in nam_modules(nam)}):
         t = NAM_PRESET_TYPES[base]
-        out.append(("blocks", '$.data."%s".children.Drive.value' % base, t,
+        out.append(("blocks", '$.data."%s".children.Resampling.value' % base, t,
                     " and type = %s and name glob '[0-9][0-9][0-9] - *'" % sql_lit(t)))
     return out
 
@@ -2294,7 +2298,7 @@ def nam_remap(br, nam, mapping):
     stmts = []
     for table, path, what, cond in _nam_paths(nam):
         v = _nam_value_sql(path)
-        case = "case %s %s end" % (v, " ".join("when %d then %d" % (a, b) for a, b in sorted(mapping.items())))
+        case = "case %s %s end" % (v, " ".join("when %d then %s" % (a, repr(b / NAM_SCALE)) for a, b in sorted(mapping.items())))
         stmts.append("update %s set content = json_set(content, %s, %s) where json_extract(content, %s) is not null "
                      "and %s in (%s)%s;" % (table, sql_lit(path), case, sql_lit(path), v,
                                             ",".join(str(a) for a in sorted(mapping)), cond))
@@ -2378,7 +2382,7 @@ def nam_trim_text(v):
 def nam_index_of(info):
     """Drive-Info -> Platz 0..100."""
     try:
-        return int(round(float(info.get("unnormalized", 0))))
+        return int(round(float(info.get("unnormalized", 0)) * NAM_SCALE))
     except (TypeError, ValueError):
         return 0
 

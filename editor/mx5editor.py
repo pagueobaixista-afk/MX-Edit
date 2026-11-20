@@ -60,7 +60,26 @@ BACKUP_DIR = os.path.join(os.path.expanduser("~"), "MX5Editor_Sicherungen")
 MIX = "Chain"          # Pseudo-Modul: Mischung der parallelen Wege (Pfad /Engine/Patch/Chain/...)
 PARA_PARAMS = ["Para1Level", "Para1Pan", "Para2Level", "Para2Pan", "ParaDelay"]
 HEAD_PARAMS = {"Doubling", "DoubleStates", "Colour"}
-NAM_ROWS = [("Model", "Drive"), ("Input", "Tone"), ("Output", "Level")]   # Anxiety OD mit NAM-Mod   # Knopf '2x' in der Kette, Farbfeld im Kopf - keine Zeilen
+def _u(i):
+    try:
+        return float(i.get("unnormalized", 0))
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def _db(x):
+    return "%+.1f dB" % x if abs(x) >= 0.05 else "0.0 dB"
+
+
+# valores como o NAM A2 Pro os usa (o 8-Bit Crush guarda outra escala): 50 % = 0 dB
+NAM_FMT = {"Drive": lambda i: _db(2 * _u(i) - 12), "FXOut": lambda i: _db(_u(i) + 12),
+           "BitGainScale": lambda i: _db((_u(i) / 100 - 0.5) * 24), "AntiAliasing": lambda i: _db((_u(i) / 100 - 0.5) * 24),
+           "ThresholdComp": lambda i: _db(((_u(i) + 30) / 30 - 0.5) * 24),
+           "Q": lambda i: "EQ off" if _u(i) < 1 else "%d %%" % round(_u(i)),
+           "ThresholdExp": lambda i: "off" if _u(i) <= -59.5 else "%d dB" % round(_u(i))}
+NAM_ROWS = [("Model", "Resampling"), ("NAM A2", "Mode"), ("Input", "Drive"), ("Output", "FXOut"),
+            ("Blend", "Mix"), ("Bass", "BitGainScale"), ("Treble", "AntiAliasing"), ("Mid", "ThresholdComp"),
+            ("Mid freq", "Freq"), ("Mid Q (0 = EQ off)", "Q"), ("Gate", "ThresholdExp")]   # NAM A2 Pro (8-Bit Crush, v8)   # Anxiety OD mit NAM-Mod   # Knopf '2x' in der Kette, Farbfeld im Kopf - keine Zeilen
 SPECIAL_LABELS = {"Rig": "Rig", "Input": "Input", "Output": "Output", MIX: "Parallel paths"}
 NO_PRESET = "– no preset –"
 WRITE_GRACE = 2.0     # s: so lange nach einem eigenen Schreibzugriff ueberschreibt die Abfrage den Wert nicht
@@ -965,7 +984,7 @@ class Editor(tk.Tk):
                     _, mode, preset = scene[slot - 1]
                     d["scene"] = {"mode": mode, "preset": preset}
                 if self.is_nam(module):
-                    d["label"], d["icon"] = self.block_title(module), "NAM"   # "NAM", "NAM 2"
+                    d["label"] = self.block_title(module)   # v8: "NAM A2 Pro", com a arte do proprio bloco
                 slots.append(d)
             else:
                 slots.append({"slot": slot, "module": None, "colour": None, "on": None, "sub": None, "double": False,
@@ -1930,7 +1949,7 @@ class Editor(tk.Tk):
             self.param_sub.configure(text=sub)
             self.param_sub.pack(fill="x", pady=(0, px(8)), before=self.psep)
         elif self.is_nam(m):
-            info = self.param_info(m, "Drive")
+            info = self.param_info(m, L.NAM_PARAM)
             self.param_sub.configure(text="NAM amp  ·  " + (self.nam_model_label(L.nam_index_of(info)) if info else "…"))
             self.param_sub.pack(fill="x", pady=(0, px(8)), before=self.psep)
         self.draw_preset_row(m)
@@ -3450,7 +3469,7 @@ class Editor(tk.Tk):
             if model or preset or nam_n:
                 time.sleep(0.4)   # der neue Block braucht einen Moment, bis seine Parameter da sind
             if nam_n:
-                dpath = L.LiveRig.path(name, "Drive")
+                dpath = L.LiveRig.path(name, L.NAM_PARAM)
                 if L.nam_index_of(br.get(dpath)) >= nam_n:
                     br.set(dpath, "unnormalized", 0)
             if model:
@@ -3729,7 +3748,7 @@ class Editor(tk.Tk):
 
     def icon_of(self, m):
         """Blockname fuer das Symbol: NAM-Bloecke bekommen ein eigenes (Amp-Topteil mit Netz)."""
-        return "NAM" if self.is_nam(m) else m
+        return m   # v8: o NAM A2 Pro usa a arte do proprio bloco (8-Bit Crush.png = PRO)
 
     def block_title(self, m):
         """Anzeigename eines Blocks: NAM-Bloecke heissen 'NAM' / 'NAM 2' statt 'Anxiety OD'."""
@@ -3789,19 +3808,43 @@ class Editor(tk.Tk):
             self.label(self.params, label, row)
             cell = tk.Frame(self.params, bg=PANEL)
             cell.grid(row=row, column=1, sticky="ew")
-            if p == "Drive":
+            if p == L.NAM_PARAM:
                 self.nam_model_row(cell, m, p, info)
+            elif p == "Mode":
+                self.nam_mode_row(cell, m, p, info)
             else:
-                self.live_widget(cell, m, p, info, L.L_NUMBER, fmt=lambda i: L.nam_trim_text(i.get("value", 0)))
+                self.live_widget(cell, m, p, info, L.kind_of(info), fmt=NAM_FMT.get(p))
             row += 1
         nam = lr.nam or {}
-        text = ("NAM %s  ·  %d model(s) on the device  ·  Input/Output: 50 %% = unity, above up to +%d dB"
-                % (nam.get("ref", ""), len(models), L.NAM_TRIM_DB))
+        text = ("NAM A2 Pro  ·  %d model(s) on the device  ·  "
+                "Input/Output: 50 %% = 0 dB  ·  Mid Q at 0 %% = EQ off" % len(models))
         tk.Label(self.params, text=text, bg=PANEL, fg=DIM, font=FONT_SMALL, anchor="w", justify="left",
                  wraplength=px(380)).grid(row=row, column=0, columnspan=2, sticky="ew", pady=(px(10), 0))
         if self.can_write():
             U.Btn(self.params, "Manage NAM models …" if models else "Add NAM models …", command=self.open_nam_dialog,
                   padx=10, pady=3, font=FONT_SMALL).grid(row=row + 1, column=0, columnspan=2, sticky="w", pady=(px(6), 0))
+
+    def nam_mode_row(self, cell, m, p, info):
+        """NAM A2 Pro: 3 botoes LITE / FULL / AUTO (Bit Mode A / B / Off; as outras posicoes valem AUTO)."""
+        lr, path = self.lrig, self.lrig.path(m, p)
+        cur = {"A": 1, "B": 2}.get(lr.values.get(path, info).get("string", ""), 0)
+
+        def pick(idx):
+            def reply(pth, res):
+                if not self.session:
+                    return
+                if res.get("ok"):
+                    lr.store(pth, res)
+                    self.status.set("%s: NAM A2 %s" % (m, {1: "LITE", 2: "FULL"}.get(idx, "AUTO")))
+                    self.live_mark_dirty()
+                    self.draw_params()
+                else:
+                    self.status.set("Error at %s/%s: %s" % (m, p, res.get("err")))
+            self.write(path, "index", idx, reply)
+
+        for label, idx in (("LITE", 1), ("FULL", 2), ("AUTO", 0)):
+            U.Btn(cell, label, command=(lambda i=idx: pick(i)), kind="primary" if idx == cur else "default",
+                  padx=12, pady=3, font=FONT_SMALL).pack(side="left", padx=(0, px(6)))
 
     def nam_model_row(self, cell, m, p, info):
         """Modellwahl: Drive-Platz = Modell in der Reihenfolge des NAM-Ordners (‹ › blaettern)."""
@@ -3827,7 +3870,7 @@ class Editor(tk.Tk):
                 self.status.set("Error at %s/%s: %s" % (m, p, res.get("err")))
 
         def set_idx(i):
-            self.write(path, "unnormalized", max(0, min(L.NAM_SILENT, i)), reply)
+            self.write(path, "unnormalized", max(0, min(L.NAM_SILENT, i)) / L.NAM_SCALE, reply)
 
         def step(d):
             n, i = len(lr.nam_models or []), cur()
