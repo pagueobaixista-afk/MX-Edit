@@ -124,9 +124,6 @@
 
 ![This fork of MX-Edit, connected live to an MX5, showing the picture of each pedal](docs/editor-arte.png)
 
-<img src="docs/mx5-screen.jpg" alt="The same rig on the MX5 screen" width="520">
-
-*The same rig in this editor and on the MX5 screen. · O mesmo rig neste editor e na tela do MX5. · El mismo rig en este editor y en la pantalla del MX5.*
 
 > **Not affiliated with HeadRush or inMusic.** HeadRush is a trademark of inMusic Brands.
 > Installing modified firmware is **at your own risk**. Read the [installation](#installation)
