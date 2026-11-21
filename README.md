@@ -1,5 +1,9 @@
 # HeadRush MX5 PC Editor – MX-Edit (unofficial fork, with Bridge and NAM-Mod support)
 
+> ⚠️ **This fork is no longer released on its own.** The editor now ships inside the **MX5 NAM A2 v9.1** package (portable, with the art). Download it here: **[headrush-mx5-nam-a2-full-lite](https://github.com/pagueobaixista-afk/headrush-mx5-nam-a2-full-lite)**.  
+> 🇧🇷 Este fork não tem mais versões separadas: o editor vai junto com o pacote **MX5 NAM A2 v9.1** ([baixe aqui](https://github.com/pagueobaixista-afk/headrush-mx5-nam-a2-full-lite/releases/latest)).
+
+
 **MX-Edit that connects to the MX5 right away on Windows 11, with no retries. It also shows the picture of each pedal, amp and cab, as on the MX5 screen, in place of the drawn symbols.**
 
 **MX-Edit que conecta ao MX5 na hora no Windows 11, sem precisar tentar de novo. Também mostra a imagem de cada pedal, amplificador e gabinete, como na tela do MX5, no lugar dos símbolos desenhados.**
